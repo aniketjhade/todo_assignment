@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
+import { useNavigate } from 'react-router';
 
 function LoginForm({ onLogin }) {
   const [formData, setFormData] = useState({
@@ -9,6 +10,7 @@ function LoginForm({ onLogin }) {
     captchaValue: '',
   });
 
+  const navigate = useNavigate()
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -61,6 +63,19 @@ function LoginForm({ onLogin }) {
     });
   };
 
+  const login = () =>{
+    const register = JSON.parse(window.localStorage.getItem('registeredUsers'))
+    const userExist = register.find((val) => val.email === formData.email )
+    console.log(userExist)
+    if(!userExist){
+      console.log('Not registered')
+    }else{
+      navigate('/dashboard');
+      window.localStorage.setItem('loggedIn user', JSON.stringify(userExist) )
+
+    }
+  }
+
   return (
     <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-semibold mb-4">Login Form</h2>
@@ -96,7 +111,7 @@ function LoginForm({ onLogin }) {
         <div>
           <button
             className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-            type="submit"
+            onClick={login}
           >
             Login
           </button>
