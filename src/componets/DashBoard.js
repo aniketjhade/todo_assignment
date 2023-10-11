@@ -7,7 +7,6 @@ const DashBoard = () => {
   return (
     <div>
       <Navbar />
-      <TaskCreationForm />
       <TaskManagementCard />
       
     </div>
